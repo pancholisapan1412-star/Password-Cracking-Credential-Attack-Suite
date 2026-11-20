@@ -1,0 +1,78 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dictionary Generator</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>📚 Dictionary Generator</h1>
+
+    <p>Generate custom sample wordlists for offline security testing.</p>
+
+    <form method="POST">
+
+        <label>Enter Keywords</label>
+
+        <textarea
+            name="keywords"
+            rows="5"
+            placeholder="Example: coffee, cricket, python"
+            required></textarea>
+
+        <br><br>
+
+        <label>
+            <input type="checkbox" name="include_numbers">
+            Include numeric suffixes
+        </label>
+
+        <br><br>
+
+        <button type="submit">Generate Wordlist</button>
+
+    </form>
+
+
+    {% if result is not none %}
+
+    <div class="result">
+
+        <h2>Generation Results</h2>
+
+        <p><strong>Total Entries:</strong> {{ result|length }}</p>
+
+        <textarea rows="12" readonly>{{ result|join('\n') }}</textarea>
+
+        <form method="POST" action="/download-wordlist">
+
+            <input
+                type="hidden"
+                name="wordlist"
+                value="{{ result|join('\n') }}">
+
+            <button type="submit">⬇ Download TXT</button>
+
+        </form>
+
+    </div>
+
+    {% endif %}
+
+    <br>
+
+    <a href="/">Back to Dashboard</a>
+
+</div>
+
+</body>
+</html>

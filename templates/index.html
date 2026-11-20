@@ -1,0 +1,264 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Password Security Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            <h2>🛡️ CyberSuite</h2>
+            <p>Security Testing Platform</p>
+        </div>
+
+        <nav>
+            <a href="#overview" class="active">🏠 Dashboard</a>
+            <a href="#modules">🔐 Security Modules</a>
+            <a href="#activity">📊 Activity</a>
+            <a href="#reports">📄 Reports</a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <p>Version 1.0</p>
+            <p>Ethical Testing Environment</p>
+        </div>
+
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <!-- HEADER -->
+        <header class="topbar">
+
+            <div>
+                <h1>Security Dashboard</h1>
+                <p>Welcome to your Password Security Testing Suite.</p>
+            </div>
+
+            <div class="user">
+                <span>👤</span>
+                <span>Administrator</span>
+            </div>
+
+        </header>
+
+        <!-- OVERVIEW -->
+        <section id="overview">
+
+            <h2>Overview</h2>
+
+            <div class="stats-container">
+
+                <div class="stat-card">
+                    <h3>Passwords Tested</h3>
+                    <h1>{{ stats.total_passwords }}</h1>
+                    <p>Total password analyses</p>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Weak Passwords</h3>
+                    <h1>{{ stats.weak_passwords }}</h1>
+                    <p>Weakness findings</p>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Total Analyses</h3>
+                    <h1>{{ stats.total_analyses }}</h1>
+                    <p>Saved database records</p>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Database Status</h3>
+                    <h1>Active</h1>
+                    <p>SQLite connected</p>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- SECURITY MODULES -->
+        <section id="modules">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>Security Modules</h2>
+                    <p>Select a module to begin testing.</p>
+                </div>
+
+                <button id="startButton">
+                    Start Testing →
+                </button>
+
+            </div>
+
+            <div class="modules-container">
+
+                <!-- MODULE 1 -->
+                <div class="module-card">
+                    <div class="module-icon">🔑</div>
+                    <h3>Password Strength Analyzer</h3>
+                    <p>Analyze password complexity, entropy and predictability.</p>
+                    <a href="/analyzer">Explore Module →</a>
+                </div>
+
+                <!-- MODULE 2 -->
+                <div class="module-card">
+                    <div class="module-icon">📚</div>
+                    <h3>Dictionary Generator</h3>
+                    <p>Generate custom password-testing wordlists using patterns.</p>
+                    <a href="/dictionary-generator">Explore Module →</a>
+                </div>
+
+                <!-- MODULE 3 -->
+                <div class="module-card">
+                    <div class="module-icon">🔐</div>
+                    <h3>Hash Analyzer</h3>
+                    <p>Analyze hash formats and identify supported algorithms.</p>
+                    <a href="/hash-analyzer">Explore Module →</a>
+                </div>
+
+                <!-- MODULE 4 -->
+                <div class="module-card">
+                    <div class="module-icon">⚡</div>
+                    <h3>Brute Force Simulator</h3>
+                    <p>Simulate bounded password-guessing attempts in a local lab.</p>
+                    <a href="/brute-force">Explore Module →</a>
+                </div>
+
+                <!-- MODULE 5 -->
+                <div class="module-card">
+                    <div class="module-icon">📄</div>
+                    <h3>Security Audit Reports</h3>
+                    <p>Review security findings and password improvement recommendations.</p>
+                    <a href="#reports">Explore Reports →</a>
+                </div>
+
+                <!-- MODULE 6 -->
+                <div class="module-card">
+                    <div class="module-icon">📁</div>
+                    <h3>Credential File Analyzer</h3>
+                    <p>Analyze synthetic Linux Shadow and Windows SAM-style records.</p>
+                    <a href="/credential-file-analyzer">Explore Module →</a>
+                </div>
+
+                <!-- MODULE 7 -->
+                <div class="module-card">
+                    <div class="module-icon">📊</div>
+                    <h3>Analysis History</h3>
+                    <p>View previously saved password and hash analysis results.</p>
+                    <a href="/history">Explore Module →</a>
+                </div>
+
+                <!-- MODULE 8 -->
+                <div class="module-card">
+                    <div class="module-icon">🪟</div>
+                    <h3>Windows SAM Analyzer</h3>
+                    <p>Analyze synthetic Windows account metadata, RIDs and account statuses.</p>
+                    <a href="/windows-sam-analyzer">Explore Module →</a>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ACTIVITY -->
+        <section id="activity">
+
+            <h2>Recent Activity</h2>
+
+            <div class="activity-box">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Activity Type</th>
+                            <th>Result</th>
+                            <th>Summary</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for record in records %}
+
+                        <tr>
+                            <td>{{ record.analysis_type }}</td>
+                            <td>{{ record.result_label }}</td>
+                            <td>{{ record.summary }}</td>
+                            <td>{{ record.created_at }}</td>
+                        </tr>
+
+                        {% else %}
+
+                        <tr>
+                            <td colspan="4">No activity records found.</td>
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+        <!-- REPORTS -->
+        <section id="reports">
+
+            <h2>Security Reports</h2>
+
+            <div class="report-box">
+
+                <h3>Security Audit Report</h3>
+
+                <p>
+                    Generate and download your security
+                    analysis history as a PDF report.
+                </p>
+
+                <a href="/download-report" class="report-button">
+                    📄 Download PDF Report
+                </a>
+
+            </div>
+
+        </section>
+
+        <!-- FOOTER -->
+        <footer>
+
+            <p>
+                Password Cracking & Credential Attack Suite
+                | Educational Cybersecurity Project
+            </p>
+
+        </footer>
+
+    </main>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>

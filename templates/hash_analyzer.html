@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hash Analyzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Hash Analyzer</h1>
+
+        <p>Identify possible hash formats</p>
+
+        <form method="POST">
+
+            <input
+                type="text"
+                name="hash_value"
+                placeholder="Enter your sample hash"
+                required
+            >
+
+            <button type="submit">Analyze Hash</button>
+
+        </form>
+
+        {% if result %}
+
+        <div class="result">
+
+            <h2>Analysis Result</h2>
+
+            <p><strong>Status:</strong> {{ result.status }}</p>
+
+            {% if result.hash_type %}
+            <p><strong>Possible Hash Type:</strong> {{ result.hash_type }}</p>
+            {% endif %}
+
+            {% if result.length %}
+            <p><strong>Hash Length:</strong> {{ result.length }}</p>
+            {% endif %}
+
+            <p><strong>Message:</strong> {{ result.message }}</p>
+
+        </div>
+
+        {% endif %}
+
+        <br>
+
+        <a href="/">Back to Dashboard</a>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Windows SAM Analyzer</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Windows SAM Sample Analyzer</h1>
+
+    <p>
+        Analyze fabricated Windows account metadata.
+    </p>
+
+    <form method="POST">
+
+        <label>Windows Account Records</label>
+
+        <textarea
+            name="sam_records"
+            rows="10"
+            placeholder="Administrator:500:Enabled:NTLM metadata"
+            required></textarea>
+
+        <br><br>
+
+        <button type="submit">
+            Analyze Records
+        </button>
+
+    </form>
+
+    {% if result %}
+
+    <div class="result">
+
+        <h2>Analysis Summary</h2>
+
+        <p>
+            <strong>Total Records:</strong>
+            {{ result.total_records }}
+        </p>
+
+        <p>
+            <strong>Valid Records:</strong>
+            {{ result.valid_records }}
+        </p>
+
+        <p>
+            <strong>Invalid Records:</strong>
+            {{ result.invalid_records }}
+        </p>
+
+        <p>
+            <strong>Enabled Accounts:</strong>
+            {{ result.enabled_accounts }}
+        </p>
+
+        <p>
+            <strong>Disabled Accounts:</strong>
+            {{ result.disabled_accounts }}
+        </p>
+
+        <hr>
+
+        <h2>Account Details</h2>
+
+        {% if result.accounts %}
+
+        <table>
+
+            <tr>
+                <th>Username</th>
+                <th>RID</th>
+                <th>Account Type</th>
+                <th>Status</th>
+                <th>Hash Metadata</th>
+            </tr>
+
+            {% for account in result.accounts %}
+
+            <tr>
+
+                <td>{{ account.username }}</td>
+
+                <td>{{ account.rid }}</td>
+
+                <td>{{ account.account_type }}</td>
+
+                <td>{{ account.account_status }}</td>
+
+                <td>{{ account.hash_type }}</td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+        {% endif %}
+
+        {% if result.errors %}
+
+        <h2>Invalid Records</h2>
+
+        {% for error in result.errors %}
+
+        <p>
+            Line {{ error.line }}:
+            {{ error.message }}
+        </p>
+
+        {% endfor %}
+
+        {% endif %}
+
+    </div>
+
+    {% endif %}
+
+    <br>
+
+    <a href="/">Back to Dashboard</a>
+
+</div>
+
+</body>
+</html>

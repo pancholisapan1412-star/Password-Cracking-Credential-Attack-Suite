@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Analysis History</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>📊 Analysis History</h1>
+
+    <p>
+    <a href="/download-report">
+        📄 Download PDF Audit Report
+    </a>
+</p>
+
+    <p>View your previous password and hash analysis records.</p>
+
+    {% if records %}
+
+    <div class="result">
+
+        <h2>Saved Records</h2>
+
+        <p><strong>Total Records:</strong> {{ records|length }}</p>
+
+        {% for record in records %}
+
+        <div class="history-item">
+
+            <h3>Record #{{ record.id }}</h3>
+
+            <p>
+                <strong>Analysis Type:</strong>
+                {{ record.analysis_type }}
+            </p>
+
+            <p>
+                <strong>Result:</strong>
+                {{ record.result_label }}
+            </p>
+
+            <p>
+                <strong>Summary:</strong>
+                {{ record.summary }}
+            </p>
+
+            <p>
+                <strong>Date:</strong>
+                {{ record.created_at }}
+            </p>
+
+            <hr>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <p>No analysis history available yet.</p>
+
+    {% endif %}
+
+    <br>
+
+    <a href="/">Back to Dashboard</a>
+
+</div>
+
+</body>
+</html>

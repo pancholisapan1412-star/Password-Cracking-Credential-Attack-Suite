@@ -1,0 +1,82 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Brute Force Simulator</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🔐 Brute Force Simulator</h1>
+
+    <p>
+        Simulate password guessing offline using sample data.
+    </p>
+
+    <form method="POST">
+
+        <label>Sample Target Password</label>
+
+        <input
+            type="text"
+            name="target_password"
+            placeholder="Example: cricket123"
+            required>
+
+        <br><br>
+
+        <label>Enter Sample Wordlist (one guess per line)</label>
+
+        <textarea
+            name="wordlist"
+            rows="8"
+            placeholder="hello&#10;python&#10;coffee&#10;cricket123"
+            required></textarea>
+
+        <br><br>
+
+        <button type="submit">Run Simulation</button>
+
+    </form>
+
+    {% if result is not none %}
+
+    <div class="result">
+
+        <h2>Simulation Results</h2>
+
+        <p><strong>Status:</strong> {{ result.status }}</p>
+
+        <p>
+            <strong>Password Found:</strong>
+            {{ result.password_found }}
+        </p>
+
+        <p>
+            <strong>Total Attempts:</strong>
+            {{ result.attempts }}
+        </p>
+
+        <p><strong>Message:</strong> {{ result.message }}</p>
+
+    </div>
+
+    {% endif %}
+
+    <br>
+
+    <a href="/">Back to Dashboard</a>
+
+</div>
+
+</body>
+</html>

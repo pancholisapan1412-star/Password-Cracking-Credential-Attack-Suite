@@ -1,0 +1,5 @@
+Administrator:500:Enabled:NTLM metadata
+Guest:501:Disabled:NTLM metadata
+Sapan:1001:Enabled:NTLM metadata
+TestUser:1002:Disabled:NTLM metadata
+SecurityAdmin:1003:Enabled:NTLM metadata

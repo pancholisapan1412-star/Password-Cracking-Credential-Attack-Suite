@@ -1,0 +1,140 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Password Strength Analyzer</title>
+
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="analyzer-container">
+
+    <a href="/" class="back-link">← Back to Dashboard</a>
+
+    <h1>Password Strength Analyzer</h1>
+
+    <p class="subtitle">
+        Test password complexity, entropy and predictability.
+    </p>
+
+    <div class="analyzer-card">
+
+        <form method="POST" action="/analyzer">
+
+            <label for="password">Enter a test password</label>
+
+            <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Enter your test password"
+                required
+                minlength="1"
+                maxlength="257"
+                autocomplete="off"
+            >
+
+            <p class="privacy-note">
+                Use a sample password, not your real account password.
+                Passwords are not stored by this application.
+            </p>
+
+            <button type="submit">
+                Analyze Password
+            </button>
+
+        </form>
+
+    </div>
+
+    {% if result %}
+
+    <div class="result-card">
+
+        <h2>Analysis Results</h2>
+
+        {% if result.error %}
+
+            <h3 class="strength-label">Validation Error</h3>
+
+            <ul class="recommendations">
+                {% for recommendation in result.recommendations %}
+                    <li>{{ recommendation }}</li>
+                {% endfor %}
+            </ul>
+
+        {% else %}
+
+            <div class="score-section">
+
+                <h3>Strength Score</h3>
+
+                <div class="score-number">
+                    {{ result.score }}/100
+                </div>
+
+                <h3 class="strength-label">
+                    {{ result.strength }}
+                </h3>
+
+            </div>
+
+            <div class="entropy-section">
+
+                <h3>Estimated Theoretical Entropy</h3>
+
+                <p>{{ result.entropy }} bits</p>
+
+            </div>
+
+            <h3>Security Checks</h3>
+
+            <div class="checks-list">
+
+                {% for name, passed in result.checks.items() %}
+
+                <div class="check-item">
+
+                    <span>{{ name.replace("_", " ") | title }}</span>
+
+                    {% if passed %}
+                        <span class="passed">✓ Passed</span>
+                    {% else %}
+                        <span class="failed">✗ Not met</span>
+                    {% endif %}
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+            <h3>Recommendations</h3>
+
+            <ul class="recommendations">
+
+                {% for recommendation in result.recommendations %}
+                    <li>{{ recommendation }}</li>
+                {% endfor %}
+
+            </ul>
+
+        {% endif %}
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+</body>
+</html>
